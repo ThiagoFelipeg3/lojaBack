@@ -26,7 +26,8 @@ class Product extends Model
 
     public static $_with = [
         'categorie',
-        'brand'
+        'brand',
+        'imagens'
     ];
 
     public function categorie()
@@ -37,5 +38,10 @@ class Product extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'id_brand');
+    }
+
+    public function imagens()
+    {
+        return $this->hasMany(ProductImage::class, 'id_product');
     }
 }
