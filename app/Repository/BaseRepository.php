@@ -26,15 +26,22 @@ abstract class BaseRepository
      *
      * @return EloquentCollection|Paginator
      */
-    protected function doQuery($query = null, int $per_page = 15, bool $paginate = true)
-    {
+    protected function doQuery(
+        $query = null,
+        int $per_page = 15,
+        bool $paginate = true,
+        bool $relationships = false
+    ) {
+        $nameModel = get_class($this->model);
         if (is_null($query)) $query = $this->newQuery();
+
+        if ($relationships) $query->with($nameModel::$_with);
 
         if ($paginate){
             return $query->paginate($per_page);
         }
 
-        return $query->get(); 
+        return $query->get();
     }
 
     /**
@@ -50,17 +57,6 @@ abstract class BaseRepository
     public function getAll($per_page = 15, $paginate = true)
     {
         return $this->doQuery(null, $per_page, $paginate);
-    }
-
-    /**
-     * @param string      $column
-     * @param string|null $key
-     *
-     * @return \Illuminate\Support\Collection
-     */
-    public function lists(string $column, $key = null)
-    {
-        return $this->newQuery()->lists($column, $key);
     }
 
     /**
@@ -81,4 +77,8 @@ abstract class BaseRepository
         return $this->newQuery()->find($id);
     }
 
+    public function getAllAndYourRelationships($per_page = 15, $paginate = true)
+    {
+       return $this->doQuery(null, $per_page, $paginate, true);
+    }
 }

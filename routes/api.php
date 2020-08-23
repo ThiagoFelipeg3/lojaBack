@@ -21,3 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('products')->group(function () {
     Route::get('', 'Product\ProductController@getAll')->name('products.all');
 });
+
+Route::get('image/{image}', 'Product\ProductController@getImage')->name('product.image');

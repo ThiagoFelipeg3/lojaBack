@@ -3,20 +3,20 @@
 namespace Loja\Repository\Product;
 
 use Loja\Entities\Product\Product;
+use Loja\Repository\BaseRepository;
 
-class ProductRepository
+class ProductRepository extends BaseRepository
 {
-    private $product;
+    protected $model;
 
     public function __construct(Product $product)
     {
-        $this->product = $product;        
+        $this->model = $product;
     }
 
-    public function getAll()
+    public function getAllProducts()
     {
-        return $this->product->with(Product::$_with)->get();
+        return $this->getAllAndYourRelationships();
     }
-
 
 }
