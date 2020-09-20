@@ -54,4 +54,10 @@ CMD ["apache2ctl", "-DFOREGROUND"]
 
 RUN curl -sS https://getcomposer.org/installer \
         | php -- --install-dir=/usr/local/bin --filename=composer
- 
+
+
+RUN apt-get update && \
+    apt-get install --yes \
+        php7.2-xdebug
+COPY xdebug.ini /etc/php/7.2/apache2/conf.d/90-xdebug.ini
+COPY xdebug.ini /etc/php/7.2/cli/conf.d/90-xdebug.ini
