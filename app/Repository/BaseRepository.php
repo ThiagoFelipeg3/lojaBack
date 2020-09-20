@@ -33,13 +33,15 @@ abstract class BaseRepository
         bool $relationships = false
     ) {
         $nameModel = get_class($this->model);
-        if (is_null($query)) $query = $this->newQuery();
 
-        if ($relationships) $query->with($nameModel::$_with);
+        if (is_null($query))
+            $query = $this->newQuery();
 
-        if ($paginate){
+        if ($relationships)
+            $query->with($nameModel::$_with);
+
+        if ($paginate)
             return $query->paginate($per_page);
-        }
 
         return $query->get();
     }
